@@ -2,8 +2,12 @@
 Union of the allocatable spaces to find bigger allocatable spaces (containers)
 
 # setup
-
 create virtual environment with python -m venv .venv
+activate virtual enviroment with ./.venv/Scripts/Activate
+run pip install -r requirements
+
+usage:
+eg. python merge_problem.py --input_file case_1_input.json
 
 # goal
 The goal of the problem is to maximize the average merged containers volume
