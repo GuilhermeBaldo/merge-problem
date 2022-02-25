@@ -228,7 +228,7 @@ def merge(container_1, container_2):
     '''
     merged_containers = []
 
-    #threshold_volume = min(calculate_volume(container_1), calculate_volume(container_2))
+    threshold_volume = calculate_average_volume([container_1, container_2])
 
     if(is_mergeable(container_1, container_2)):
         merged_containers = [container_1, container_2]
@@ -246,8 +246,8 @@ def merge(container_1, container_2):
                 'end': min(container_1['z']['end'], container_2['z']['end']),
             }
         }
-        #if(calculate_volume(merged_container_1) > threshold_volume):
-        merged_containers.append(merged_container_1)
+        if(calculate_volume(merged_container_1) > threshold_volume):
+            merged_containers.append(merged_container_1)
 
         merged_container_2 = {
             'x': {
@@ -263,8 +263,8 @@ def merge(container_1, container_2):
                 'end': max(container_1['z']['end'], container_2['z']['end']),
             }
         }
-        #if(calculate_volume(merged_container_2) > threshold_volume):
-        merged_containers.append(merged_container_2)
+        if(calculate_volume(merged_container_2) > threshold_volume):
+            merged_containers.append(merged_container_2)
 
 
     return remove_sub_containers(remove_duplicate_containers(merged_containers))
@@ -310,3 +310,32 @@ def calculate_average_volume(containers):
     total_volume = sum([calculate_volume(container) for container in containers])
     average_volume = total_volume / len(containers)
     return average_volume
+
+def identify_containers(containers):
+    '''
+    reset container id and add id to containers that dont have it (merged containers)
+    
+    parameters:
+        containers (list of dict): dict of the form:
+        {
+            'x': {'start': float, 'end': float},
+            'y': {'start': float, 'end': float},
+            'z': {'start': float, 'end': float},
+            'id': int
+        }
+
+    returns:
+        containers (list of dict): dict of the form:
+        {
+            'x': {'start': float, 'end': float},
+            'y': {'start': float, 'end': float},
+            'z': {'start': float, 'end': float},
+            'id': int
+        }
+    '''
+
+    id = 0
+    for container in containers:
+        container['id'] = id
+        id += 1
+    return containers

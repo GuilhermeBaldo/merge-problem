@@ -29,6 +29,8 @@ def merge_problem(containers):
         output_containers = []
         # boolean that will work as a stop criteria (when no merge occurs during execution the recursion stops)
         any_merged = False
+        # initial average volume that will work as stop criteria also
+        initial_average_volume = calculate_average_volume(input_containers)
         
         # try to find the best merge for every container in input
         while(input_containers):
@@ -57,10 +59,13 @@ def merge_problem(containers):
             else:
                 output_containers.append(container_1)
 
-        print(calculate_average_volume(output_containers), len(output_containers), max_num_of_containers)
+        # clean possible duplication of containers that are subsets of other containers that were possibly generated in the algorithm
+        output_containers = remove_sub_containers(remove_duplicate_containers(output_containers))
+
+        end_average_volume = calculate_average_volume(output_containers)
 
         # stop criteria when no merging was done and otherwise call the function another time.
-        if(not any_merged):
+        if(not any_merged or end_average_volume < initial_average_volume):
             return output_containers
         else:
             return recursive_merge_problem(output_containers)
@@ -73,15 +78,23 @@ if __name__ == "__main__":
     parser.add_argument("--input_file", dest="input_file", required=True, help="input file with containers", metavar="FILE")
     args = parser.parse_args()
 
+    print(f'Reading the input file {args.input_file}')
     input_containers = parse_input(args.input_file)
 
-    print(calculate_average_volume(input_containers))
+    print(f'The input contains {len(input_containers)} containers')
 
+    print(f'Average volume of the input: {calculate_average_volume(input_containers)}')
+
+    print('Performing optimization...')
     output_containers = merge_problem(input_containers)
+    print('Done... =)')
 
-    print(calculate_average_volume(output_containers))
-    print(len(output_containers))
+    print(f'Average volume of the output: {calculate_average_volume(output_containers)}')
+    print(f'The output contains {len(output_containers)} containers')
+
+    output_containers = identify_containers(output_containers)
 
     output_file = 'output'.join(args.input_file.split('input'))
+    print(f'Saving results in {output_file}')
     save_output(output_file, output_containers)
         
