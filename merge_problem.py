@@ -65,7 +65,7 @@ def merge_problem(containers):
         end_average_volume = calculate_average_volume(output_containers)
 
         # stop criteria when no merging was done and otherwise call the function another time.
-        if(not any_merged or end_average_volume < initial_average_volume):
+        if(not any_merged or end_average_volume < initial_average_volume or len(output_containers) >= max_num_of_containers):
             return output_containers
         else:
             return recursive_merge_problem(output_containers)

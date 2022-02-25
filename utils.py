@@ -170,10 +170,6 @@ def remove_sub_containers(containers):
         for j in range(len(containers)):
             container_i_is_contained = False
             if(i != j):
-                # if is_equal(containers[i], containers[j]):
-                #     filtered_containers.append(containers[i])
-                #     container_i_is_contained = True
-                #     break
                 if is_contained_in(containers[i], containers[j]):
                     container_i_is_contained = True
                     break
@@ -311,6 +307,7 @@ def calculate_average_volume(containers):
     average_volume = total_volume / len(containers)
     return average_volume
 
+
 def identify_containers(containers):
     '''
     reset container id and add id to containers that dont have it (merged containers)
@@ -333,7 +330,6 @@ def identify_containers(containers):
             'id': int
         }
     '''
-
     id = 0
     for container in containers:
         container['id'] = id
