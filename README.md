@@ -14,7 +14,7 @@ pip install -r requirements
 Here is an example of how to run the code
 
 ```
-python merge_problem.py --input_file case_1_input.jso
+python merge_problem.py --input_file case_1_input.json
 ```
 
 # goal
