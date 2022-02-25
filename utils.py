@@ -228,7 +228,7 @@ def merge(container_1, container_2):
     '''
     merged_containers = []
 
-    threshold_volume = min(calculate_volume(container_1), calculate_volume(container_2))
+    #threshold_volume = min(calculate_volume(container_1), calculate_volume(container_2))
 
     if(is_mergeable(container_1, container_2)):
         merged_containers = [container_1, container_2]
@@ -246,8 +246,8 @@ def merge(container_1, container_2):
                 'end': min(container_1['z']['end'], container_2['z']['end']),
             }
         }
-        if(calculate_volume(merged_container_1) > threshold_volume):
-            merged_containers.append(merged_container_1)
+        #if(calculate_volume(merged_container_1) > threshold_volume):
+        merged_containers.append(merged_container_1)
 
         merged_container_2 = {
             'x': {
@@ -263,10 +263,11 @@ def merge(container_1, container_2):
                 'end': max(container_1['z']['end'], container_2['z']['end']),
             }
         }
-        if(calculate_volume(merged_container_2) > threshold_volume):
-            merged_containers.append(merged_container_2)
+        #if(calculate_volume(merged_container_2) > threshold_volume):
+        merged_containers.append(merged_container_2)
 
-    return merged_containers
+
+    return remove_sub_containers(remove_duplicate_containers(merged_containers))
 
 
 def calculate_volume(container):
